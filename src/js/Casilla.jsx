@@ -1,3 +1,9 @@
+import { Button } from 'react-bootstrap';
+
+
+var React = require('react');
+var ReactDOM = require('react-dom');
+
 const casillaStyle = {
 	height: '100px',
 	width: '100px'
@@ -17,9 +23,12 @@ let Casilla = React.createClass({
 	},
 	render: function () {
 		return (
-			<button style={casillaStyle} className={this.comprobarClickable()} onClick={this.casillaClick}>
+			<Button bsStyle="success"
+					style={casillaStyle} 
+					className={this.comprobarClickable()} 
+					onClick={this.casillaClick}>
 			{this.props.valor}
-			</button>
+			</Button>
 		)
 	}
 });
