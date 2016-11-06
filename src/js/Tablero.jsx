@@ -9,12 +9,25 @@ var Tablero = React.createClass({
 			let fila = valoresFila.map(function (valor, indiceColumna) {
 				let mykey = "" + indiceFila + indiceColumna;
 				return (
-					<Casilla valor={valor} indiceFila={indiceFila} indiceColumna={indiceColumna} key={mykey} manejadorClick={this.tableroClick}/>
+					<Casilla valor={valor} 
+						     indiceFila={indiceFila} 
+						     indiceColumna={indiceColumna}
+						     key={mykey} 
+						     manejadorClick={this.tableroClick}
+						     partida={this.props.partida}/>
 					)
 			}, this);
-			return (<div>{fila}</div>)
+			return (
+				<div key={"fila"+indiceFila}>
+					{fila}
+				</div>
+				)
 		}, this);
-		return (<div>{tablero}</div>);
+		return (
+			<div>
+				{tablero}
+			</div>
+		);
 	}
 });
 

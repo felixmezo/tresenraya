@@ -8,13 +8,19 @@ var JUGADORX = "jugador 1 - las X";
 var JUGADOR0 = "jugador 2 - los 0";
 var VALORES = [['-', '-', '-'], ['-', '-', '-'], ['-', '-', '-']];
 
+var JUGANDO = 0;
+var GANANX = 1;
+var GANAN0 = 2;
+var EMPATE = 3;
+
 var App = React.createClass({
 	displayName: 'App',
 
 	getInitialState: function getInitialState() {
 		return {
 			turno: JUGADORX,
-			valores: VALORES
+			valores: VALORES,
+			partida: JUGANDO
 		};
 	},
 	appclick: function appclick(numeroFila, numeroColumna) {
@@ -23,8 +29,47 @@ var App = React.createClass({
 		valores[numeroFila][numeroColumna] = nuevoValor;
 		this.setState({
 			turno: this.state.turno === JUGADORX ? JUGADOR0 : JUGADORX,
+			partida: this.ganador(this.state.valores, this.state.turno),
 			valores: this.state.valores
 		});
+	},
+	resetClick: function resetClick() {
+		this.setState({
+			turno: JUGADORX,
+			valores: VALORES,
+			partida: JUGANDO
+		});
+	},
+	ganador: function ganador(valores, turno) {
+		for (var i = 0; i < valores.length; i++) {
+			if (valores[i][0] !== '-' && valores[i][0] === valores[i][1] && valores[i][1] === valores[i][2] || //comprobaciones horizontales
+			valores[0][i] !== '-' && valores[0][i] === valores[1][i] && valores[1][i] === valores[2][i]) {
+				//comprobaciones verticales
+				setTimeout(function () {
+					alert("Gana el" + turno);
+				}, 100);
+				return valores[i][0] === '0' ? GANAN0 : GANANX;
+			}
+		}
+		if (valores[0][0] !== '-' && valores[0][0] === valores[1][1] && valores[1][1] === valores[2][2] || //comprobacion de diagonales
+		valores[0][2] !== '-' && valores[0][2] === valores[1][1] && valores[1][1] === valores[2][0]) {
+			setTimeout(function () {
+				alert("GANA el " + turno);
+			}, 100);
+			return valores[1][1] === '0' ? GANAN0 : GANANX;
+		}
+		//comprobacion de empate
+		for (var i = 0; i < valores.length; i++) {
+			for (var j = 0; j < valores.length; j++) {
+				if (valores[i][j] === '-') {
+					return JUGANDO;
+				}
+			}
+		}
+		setTimeout(function () {
+			alert("EMPATE");
+		}, 100);
+		return EMPATE;
 	},
 	render: function render() {
 		var texto = "Turno del " + this.state.turno;
@@ -32,7 +77,9 @@ var App = React.createClass({
 			'div',
 			null,
 			React.createElement(Cabecera, { texto: texto }),
-			React.createElement(Tablero, { valores: this.state.valores, manejadorTableroClick: this.appclick })
+			React.createElement(Tablero, { valores: this.state.valores,
+				manejadorTableroClick: this.appclick,
+				partida: this.state.partida })
 		);
 	}
 });
@@ -68,14 +115,20 @@ var Casilla = React.createClass({
 	displayName: 'Casilla',
 
 	casillaClick: function casillaClick() {
-		if (this.props.valor === "-") {
+		if (this.props.partida === 0 && this.props.valor === "-") {
 			this.props.manejadorClick(this.props.indiceFila, this.props.indiceColumna);
 		}
+	},
+	comprobarClickable: function comprobarClickable() {
+		if (this.props.partida !== 0 || this.props.valor !== "-") {
+			return "no_clickable";
+		}
+		return "clickable";
 	},
 	render: function render() {
 		return React.createElement(
 			'button',
-			{ style: casillaStyle, className: this.props.valor === "-" ? "clickable" : "no_clickable", onClick: this.casillaClick },
+			{ style: casillaStyle, className: this.comprobarClickable(), onClick: this.casillaClick },
 			this.props.valor
 		);
 	}
@@ -98,11 +151,16 @@ var Tablero = React.createClass({
 		var tablero = this.props.valores.map(function (valoresFila, indiceFila) {
 			var fila = valoresFila.map(function (valor, indiceColumna) {
 				var mykey = "" + indiceFila + indiceColumna;
-				return React.createElement(Casilla, { valor: valor, indiceFila: indiceFila, indiceColumna: indiceColumna, key: mykey, manejadorClick: this.tableroClick });
+				return React.createElement(Casilla, { valor: valor,
+					indiceFila: indiceFila,
+					indiceColumna: indiceColumna,
+					key: mykey,
+					manejadorClick: this.tableroClick,
+					partida: this.props.partida });
 			}, this);
 			return React.createElement(
 				"div",
-				null,
+				{ key: "fila" + indiceFila },
 				fila
 			);
 		}, this);
