@@ -3,6 +3,7 @@ var ReactDOM = require('react-dom');
 
 const Cabecera = require('./Cabecera.jsx');
 const Tablero = require('./Tablero.jsx');
+const Reinicio = require('./Reinicio.jsx')
 
 const JUGADORX = "jugador 1 - las X";
 const JUGADOR0 = "jugador 2 - los 0";
@@ -34,7 +35,11 @@ var App = React.createClass({
 	resetClick: function(){
 		this.setState({
 			turno: JUGADORX,
-			valores: VALORES,
+			valores: [
+				['-', '-', '-'],
+				['-', '-', '-'],
+				['-', '-', '-']
+			],
 			partida: JUGANDO
 		})
 	},
@@ -67,6 +72,7 @@ var App = React.createClass({
 		return (
 			<div>
 				<Cabecera texto={texto}/>
+				<Reinicio manejadorResetClick={this.resetClick}/>
 				<Tablero valores={this.state.valores} 
 				         manejadorTableroClick={this.appclick}
 				         partida={this.state.partida} />
