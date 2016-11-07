@@ -38357,12 +38357,22 @@ var GANANX = 1;
 var GANAN0 = 2;
 var EMPATE = 3;
 
+function getRandomTurn() {
+	var turno = Math.floor(Math.random() * 2);
+
+	if (turno === 0) {
+		return JUGADORX;
+	} else {
+		return JUGADOR0;
+	}
+};
+
 var App = React.createClass({
 	displayName: 'App',
 
 	getInitialState: function getInitialState() {
 		return {
-			turno: JUGADORX,
+			turno: getRandomTurn(),
 			valores: VALORES,
 			partida: JUGANDO,
 			turnos0: 0,
@@ -38390,7 +38400,7 @@ var App = React.createClass({
 	},
 	resetClick: function resetClick() {
 		this.setState({
-			turno: JUGADORX,
+			turno: getRandomTurn(),
 			valores: [['-', '-', '-'], ['-', '-', '-'], ['-', '-', '-']],
 			partida: JUGANDO,
 			turnos0: 0,
@@ -38462,11 +38472,6 @@ var App = React.createClass({
 					null,
 					'felix.mezog@alumnos.upm.es'
 				)
-			),
-			React.createElement(
-				'footer',
-				null,
-				'Asier Culebras Porras'
 			)
 		);
 	}

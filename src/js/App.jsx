@@ -19,10 +19,20 @@ const GANANX   = 1;
 const GANAN0   = 2;
 const EMPATE   = 3;
 
+function getRandomTurn(){
+	var turno = Math.floor(Math.random() * 2);
+
+	if (turno === 0){
+		return JUGADORX;
+	}else{
+		return JUGADOR0;
+	}
+};
+
 var App = React.createClass({
 	getInitialState: function () {
 		return {
-			turno: JUGADORX,
+			turno: getRandomTurn(),
 			valores: VALORES,
 			partida: JUGANDO,
 			turnos0: 0,
@@ -50,7 +60,7 @@ var App = React.createClass({
 	},
 	resetClick: function(){
 		this.setState({
-			turno: JUGADORX,
+			turno: getRandomTurn(),
 			valores: [
 				['-', '-', '-'],
 				['-', '-', '-'],
