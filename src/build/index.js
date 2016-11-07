@@ -38462,6 +38462,11 @@ var App = React.createClass({
 					null,
 					'felix.mezog@alumnos.upm.es'
 				)
+			),
+			React.createElement(
+				'footer',
+				null,
+				'Asier Culebras Porras'
 			)
 		);
 	}

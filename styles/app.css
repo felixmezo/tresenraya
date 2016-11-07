@@ -1,4 +1,4 @@
-.game {
-float: left;
-margin-left: 100px;
+#contenedor {
+	width: 50%;
+	margin: 0 auto;
 }
