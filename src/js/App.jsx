@@ -113,6 +113,9 @@ var App = React.createClass({
 				<footer>
 					Félix Mezo Gómez - <i>felix.mezog@alumnos.upm.es</i>
 				</footer>
+				<footer>
+					Asier Culebras Porras - <i>a.culebras@alumnos.upm.es</i>
+				</footer>	
 			</div>
 		)
 	}
